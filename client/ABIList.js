@@ -1,4 +1,4 @@
-const erc20ABI = ["function decimals() external view returns (uint8);"];
+const erc20ABI = ["function decimals() external view returns (uint8)"];
 
 const factoryABI = [
   "function getPair(address tokenA, address tokenB) external view returns (address pair)",
@@ -11,5 +11,7 @@ const pairABI = [
 ];
 
 const routerABI = [
-  "function getAmountsOut(uint amountIn, address[] memory path) public view virtual override returns (uint[] memory amounts)",
+  "function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)",
 ];
+
+module.exports = { erc20ABI, factoryABI, routerABI, pairABI };

@@ -5,26 +5,24 @@ const {
   addressRouter,
   addressFrom,
   addressTo,
-} = require("./addressList");
+} = require("./AddressList");
 
-const { erc20ABI, factoryABI, routerABI, pairABI } = require("./ABIList");
+const { erc20ABI, factoryABI, pairABI, routerABI } = require("./AbiList");
 
-//Standard provider
+// Standard Provider
 const provider = new ethers.providers.JsonRpcProvider(
   "https://bsc-dataseed.binance.org/"
 );
 
-// Connect to factory
+// Connect to Factory
 const contractFactory = new ethers.Contract(
   addressFactory,
   factoryABI,
   provider
 );
 
-// Connect router
+// Connect to Router
 const contractRouter = new ethers.Contract(addressRouter, routerABI, provider);
-
-//console.log(contractFactory);
 
 // Call the Blockchain
 const getPrices = async (amountInHuman) => {
@@ -32,6 +30,7 @@ const getPrices = async (amountInHuman) => {
   const contractToken = new ethers.Contract(addressFrom, erc20ABI, provider);
   const decimals = await contractToken.decimals();
   const amountIn = ethers.utils.parseUnits(amountInHuman, decimals).toString();
+  console.log(decimals);
   //console.log(contractToken);
 
   // Get amounts out
@@ -39,17 +38,19 @@ const getPrices = async (amountInHuman) => {
     addressFrom,
     addressTo,
   ]);
+
   // Convert amount out - decimals
   const contractToken2 = new ethers.Contract(addressTo, erc20ABI, provider);
   const decimals2 = await contractToken2.decimals();
 
-  // Convert amount out - human format
+  // Convert amount out - human readable
   const amountOutHuman = ethers.utils.formatUnits(
     amountsOut[1].toString(),
     decimals2
   );
+
   // Log output
-  console.log(amountOutHuman);
+  // console.log(amountOutHuman);
 };
 
 const amountInHuman = "500";
